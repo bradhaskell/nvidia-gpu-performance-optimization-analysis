@@ -1,0 +1,37 @@
+name: Run Web Scrape Extract and Load to Raw
+
+on:
+  schedule:
+    - cron: '*/15 * * * *'  # every 15 minutes
+  workflow_dispatch:         # manual trigger
+
+env:
+  PG_USER:     ${{ secrets.PG_USER }}
+  PG_PASSWORD: ${{ secrets.PG_PASSWORD }}
+  PG_HOST:     ${{ secrets.PG_HOST }}
+  PG_PORT:     ${{ secrets.PG_PORT }}
+  PG_GPU_DB:   ${{ secrets.PG_GPU_DB }}
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.12'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install ipykernel
+          python -m ipykernel install --user --name python3
+
+      - name: Run Web Scrape notebook
+        run: |
+          papermill notebooks/Web_Scrape_Extract_Load_Raw.ipynb notebooks/Web_Scrape_Extract_Load_Raw_out.ipynb
