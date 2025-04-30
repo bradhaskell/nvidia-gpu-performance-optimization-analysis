@@ -34,4 +34,4 @@ jobs:
 
       - name: Run Web Scrape notebook
         run: |
-          papermill notebooks/Web_Scrape_Extract_Load_Raw.ipynb notebooks/Web_Scrape_Extract_Load_Raw_out.ipynb
+          papermill notebooks/TechPowerUp_Web_Scrape_Extract_Load_Raw.ipynb notebooks/TechPowerUp_Web_Scrape_Extract_Load_Raw_out.ipynb
